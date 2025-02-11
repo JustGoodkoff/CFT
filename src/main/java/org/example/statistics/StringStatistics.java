@@ -1,9 +1,9 @@
 package org.example.statistics;
 
 public class StringStatistics {
-    private int count = 0;
-    private int minLength = Integer.MAX_VALUE;
-    private int maxLength = 0;
+    private long count = 0;
+    private long minLength = Integer.MAX_VALUE;
+    private long maxLength = 0;
 
     public void add(String value) {
         count++;
@@ -12,7 +12,7 @@ public class StringStatistics {
         if (len > maxLength) maxLength = len;
     }
 
-    public int getCount() { return count; }
-    public int getMinLength() { return minLength; }
-    public int getMaxLength() { return maxLength; }
+    public long getCount() { return count; }
+    public long getMinLength() { return minLength; }
+    public long getMaxLength() { return maxLength; }
 }

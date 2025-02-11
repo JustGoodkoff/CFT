@@ -1,17 +1,20 @@
 package org.example.statistics;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 public class StatisticsCollector {
     private final IntegerStatistics integerStats = new IntegerStatistics();
     private final FloatStatistics floatStats = new FloatStatistics();
     private final StringStatistics stringStats = new StringStatistics();
 
     public void addInteger(String value) {
-        int num = Integer.parseInt(value);
+        BigInteger num = new BigInteger(value);
         integerStats.add(num);
     }
 
     public void addFloat(String value) {
-        double num = Double.parseDouble(value);
+        BigDecimal num = new BigDecimal(value);
         floatStats.add(num);
     }
 

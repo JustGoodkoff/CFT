@@ -1,21 +1,31 @@
 package org.example.statistics;
 
-public class IntegerStatistics {
-    private int count = 0;
-    private int min = Integer.MAX_VALUE;
-    private int max = Integer.MIN_VALUE;
-    private long sum = 0;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 
-    public void add(int value) {
-        if (value < min) min = value;
-        if (value > max) max = value;
-        sum += value;
-        count++;
+public class IntegerStatistics {
+    private long count = 0;
+    private BigInteger min = null;
+    private BigInteger max = null;
+    private BigInteger sum = BigInteger.ZERO;
+
+    public void add(BigInteger value) {
+        if (count == 0) {
+            max = value;
+            min = value;
+        }
+        if (value.compareTo(min) < 0) min = value;
+        if (value.compareTo(max) > 0) max = value;
+        sum = sum.add(value);
+        count += 1;
+
     }
 
-    public int getCount() { return count; }
-    public int getMin() { return min; }
-    public int getMax() { return max; }
-    public long getSum() { return sum; }
-    public double getAverage() { return count == 0 ? 0 : (double) sum / count; }
+    public long getCount() { return count; }
+    public BigInteger getMin() { return min; }
+    public BigInteger getMax() { return max; }
+    public BigInteger getSum() { return sum; }
+    public BigDecimal getAverage() { return count == 0 ? BigDecimal.ZERO
+            : new BigDecimal(sum).divide(new BigDecimal(count), 10, RoundingMode.HALF_UP); }
 }

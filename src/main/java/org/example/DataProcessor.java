@@ -3,6 +3,8 @@ package org.example;
 import org.example.statistics.StatisticsCollector;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.nio.file.*;
 import java.util.List;
 
@@ -57,7 +59,8 @@ public class DataProcessor {
 
     private boolean isInteger(String s) {
         try {
-            Integer.parseInt(s);
+            new BigInteger(s);
+//            Integer.parseInt(s);
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -66,7 +69,8 @@ public class DataProcessor {
 
     private boolean isDouble(String s) {
         try {
-            Double.parseDouble(s);
+            new BigDecimal(s);
+//            Double.parseDouble(s);
             return true;
         } catch (NumberFormatException e) {
             return false;

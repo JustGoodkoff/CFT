@@ -1,5 +1,8 @@
 package org.example.statistics;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 public class StatisticsPrinter {
     public static void print(StatisticsCollector stats, StatisticsType statsType) {
         IntegerStatistics intStats = stats.getIntegerStats();
@@ -27,7 +30,7 @@ public class StatisticsPrinter {
 
     private static void printFull(IntegerStatistics intStats, FloatStatistics floatStats, StringStatistics stringStats) {
         if (intStats.getCount() > 0) {
-            System.out.printf("Integers: count=%d, min=%d, max=%d, sum=%d, average=%.2f%n",
+            System.out.printf("Integers: count=%d, min=%d, max=%d, sum=%d, average=%.10f%n",
                     intStats.getCount(),
                     intStats.getMin(),
                     intStats.getMax(),
@@ -35,7 +38,7 @@ public class StatisticsPrinter {
                     intStats.getAverage());
         }
         if (floatStats.getCount() > 0) {
-            System.out.printf("Floats: count=%d, min=%.2f, max=%.2f, sum=%.2f, average=%.2f%n",
+            System.out.printf("Floats: count=%d, min=%.10f, max=%.10f, sum=%.10f, average=%.10f%n",
                     floatStats.getCount(),
                     floatStats.getMin(),
                     floatStats.getMax(),
