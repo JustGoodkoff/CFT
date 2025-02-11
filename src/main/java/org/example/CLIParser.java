@@ -1,13 +1,14 @@
 package org.example;
 
-import org.apache.commons.*;
+
 import org.apache.commons.cli.*;
+import org.example.statistics.StatisticsType;
 
 import java.text.ParseException;
 import java.util.List;
 
 public class CLIParser {
-    public static CommandLineArguments parse(String[] args) throws ParseException, org.apache.commons.cli.ParseException {
+    public static CommandLineArguments parse(String[] args) throws org.apache.commons.cli.ParseException {
         Options options = new Options();
         options.addOption(Option.builder("o").hasArg().argName("path").desc("Output directory").build());
         options.addOption(Option.builder("p").hasArg().argName("prefix").desc("File prefix").build());
@@ -21,10 +22,11 @@ public class CLIParser {
         boolean isShort = cmd.hasOption("s");
         boolean isFull = cmd.hasOption("f");
         if (isShort && isFull) {
-            throw new ParseException("Both -s and -f options cannot be specified together", 1);
+            isShort = false;
+
         }
         if (!isShort && !isFull) {
-            throw new ParseException("Either -s or -f option must be specified", 1);
+            isShort = true;
         }
 
         StatisticsType statsType = isShort ? StatisticsType.SHORT : StatisticsType.FULL;
@@ -35,7 +37,7 @@ public class CLIParser {
 
         List<String> inputFiles = cmd.getArgList();
         if (inputFiles.isEmpty()) {
-            throw new ParseException("No input files specified", 1);
+//            throw new ParseException("No input files specified", 1);
         }
 
         return new CommandLineArguments(outputPath, prefix, appendMode, statsType, inputFiles);

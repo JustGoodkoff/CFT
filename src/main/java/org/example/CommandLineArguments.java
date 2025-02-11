@@ -1,6 +1,8 @@
 package org.example;
 
 
+import org.example.statistics.StatisticsType;
+
 import java.util.List;
 
 public class CommandLineArguments {
