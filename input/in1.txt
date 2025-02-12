@@ -1,7 +1,9 @@
-Lorem ipsum dolor sit amet
-45
-Пример
-consectetur adipiscing
-тестовое задание
-01047390
-
+123
+-123
+0
+qwertyuiop[]
+-3.14e5
+numbernumbernumber
+0123
+1234567890123456789012345678901234567890
+1234567890123456789012345678901234567890.5

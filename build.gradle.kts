@@ -4,7 +4,6 @@ plugins {
 }
 
 group = "org.example"
-group = "org.example.statistics"
 version = "1.0"
 
 
