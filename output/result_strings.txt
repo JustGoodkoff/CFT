@@ -3,7 +3,18 @@ Lorem ipsum dolor sit amet
 consectetur adipiscing
 тестовое задание
 
+Lorem ipsum dolor sit amet
+Пример
+consectetur adipiscing
+тестовое задание
 
-Нормальная форма числа с плавающей запятой
+Lorem ipsum dolor sit amet
+Пример
+consectetur adipiscing
+тестовое задание
 
-Long
+Lorem ipsum dolor sit amet
+Пример
+consectetur adipiscing
+тестовое задание
+

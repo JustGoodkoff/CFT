@@ -1,18 +1,19 @@
 package org.example;
 
-import org.apache.commons.cli.ParseException;
+import org.example.cli.CLIParser;
+import org.example.cli.CommandLineArguments;
 import org.example.statistics.StatisticsPrinter;
 
 public class FileFilter {
 
-    public static void filter(String[] args) throws ParseException {
+    public static void filter(String[] args){
         CommandLineArguments cliArgs = CLIParser.parse(args);
         DataProcessor processor = new DataProcessor(cliArgs);
-        processor.processFiles(cliArgs.getInputFiles());
+        processor.processFiles(cliArgs.inputFiles());
 
         StatisticsPrinter.print(
                 processor.getStatistics(),
-                cliArgs.getStatsType()
+                cliArgs.statsType()
         );
     }
 }

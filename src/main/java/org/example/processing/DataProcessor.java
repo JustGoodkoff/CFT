@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.cli.CommandLineArguments;
 import org.example.statistics.StatisticsCollector;
 
 import java.io.*;
@@ -19,12 +20,13 @@ public class DataProcessor {
     private BufferedWriter stringWriter;
 
     public DataProcessor(CommandLineArguments cliArgs) {
-        this.outputPath = Paths.get(cliArgs.getOutputPath());
-        this.prefix = cliArgs.getPrefix();
-        this.appendMode = cliArgs.isAppendMode();
+        this.outputPath = Paths.get(cliArgs.outputPath());
+        this.prefix = cliArgs.prefix();
+        this.appendMode = cliArgs.appendMode();
     }
 
     public void processFiles(List<String> inputFiles) {
+        deleteExistingFiles();
         for (String file : inputFiles) {
             processFile(file);
         }
@@ -38,9 +40,9 @@ public class DataProcessor {
                 processLine(line);
             }
         } catch (FileNotFoundException e) {
-            System.err.println("File not found: " + filePath);
+            System.err.println("Указанный файл не найден: " + filePath);
         } catch (IOException e) {
-            System.err.println("Error reading file: " + filePath + ": " + e.getMessage());
+            System.err.println("Ошибка при чтении файла: " + filePath + ": " + e.getMessage());
         }
     }
 
@@ -60,7 +62,6 @@ public class DataProcessor {
     private boolean isInteger(String s) {
         try {
             new BigInteger(s);
-//            Integer.parseInt(s);
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -70,7 +71,6 @@ public class DataProcessor {
     private boolean isDouble(String s) {
         try {
             new BigDecimal(s);
-//            Double.parseDouble(s);
             return true;
         } catch (NumberFormatException e) {
             return false;
@@ -78,25 +78,18 @@ public class DataProcessor {
     }
 
     private void writeLine(String line, DataType type) {
-        BufferedWriter writer = null;
-        switch (type) {
-            case INTEGER:
-                writer = getIntegerWriter();
-                break;
-            case FLOAT:
-                writer = getFloatWriter();
-                break;
-            case STRING:
-                writer = getStringWriter();
-                break;
-        }
+        BufferedWriter writer = switch (type) {
+            case INTEGER -> getIntegerWriter();
+            case FLOAT -> getFloatWriter();
+            case STRING -> getStringWriter();
+        };
 
         if (writer != null) {
             try {
                 writer.write(line);
                 writer.newLine();
             } catch (IOException e) {
-                System.err.println("Error writing to " + type.name().toLowerCase() + " file: " + e.getMessage());
+                System.err.println("Ошибка записи в файл " + type.name().toLowerCase());
             }
         }
     }
@@ -128,10 +121,29 @@ public class DataProcessor {
         try {
             Files.createDirectories(filePath.getParent());
             boolean append = appendMode && Files.exists(filePath);
+            if (!append) {
+                if (Files.exists(filePath)) {
+                    Files.delete(filePath);
+                }
+            }
             return new BufferedWriter(new FileWriter(filePath.toFile(), append));
         } catch (IOException e) {
-            System.err.println("Failed to create writer for " + type.name().toLowerCase() + ": " + e.getMessage());
+            System.err.println("Ошибка при создании файла " + type.name().toLowerCase() + ": " + e.getMessage());
             return null;
+        }
+    }
+
+    private void deleteExistingFiles() {
+        if (!appendMode) {
+            for (DataType type : DataType.values()) {
+                String fileName = prefix + type.getFileName();
+                Path filePath = outputPath.resolve(fileName);
+                try {
+                    Files.deleteIfExists(filePath);
+                } catch (IOException e) {
+                    System.err.println("Ошибка при удалении файлов");
+                }
+            }
         }
     }
 
@@ -146,7 +158,7 @@ public class DataProcessor {
             try {
                 writer.close();
             } catch (IOException e) {
-                System.err.println("Error closing " + type + " writer: " + e.getMessage());
+                System.err.println("Ошибка при закрытии файла: " + type + " " + e.getMessage());
             }
         }
     }
