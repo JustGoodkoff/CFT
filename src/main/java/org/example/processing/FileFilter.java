@@ -1,4 +1,4 @@
-package org.example;
+package org.example.processing;
 
 import org.example.cli.CLIParser;
 import org.example.cli.CommandLineArguments;

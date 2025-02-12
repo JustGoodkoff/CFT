@@ -1,4 +1,4 @@
-package org.example;
+package org.example.processing;
 
 import java.io.IOException;
 import java.nio.file.Files;
