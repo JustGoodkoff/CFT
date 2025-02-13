@@ -71,12 +71,23 @@ public class CLIParser {
     private static String replaceForbiddenCharacters(String input, String type) {
         String prefixForbiddenCharacters = "[/\\\\:*?\"<>|]";
         String pathForbiddenCharacters = "[\\\\:*?\"<>|]";
-        return switch (type) {
+        String out = switch (type) {
             case "PATH" -> (input.startsWith("/") ? "." + input : input).replaceAll(pathForbiddenCharacters, "");
             case "PREFIX" -> input.replaceAll(prefixForbiddenCharacters, "");
             default -> input;
         };
 
+        if (!out.equals(input)) {
+            switch (type) {
+                case "PATH":
+                    System.out.println("Файл не может быть создан по указанному пути, т.к. путь содержит недопустимые символы. Новый путь: " + out);
+                    break;
+                case "PREFIX":
+                    System.out.println("Файл не может быть создан с указанным префиксом, т.к. префикс содержит недопустимые символы. Новый префикс: " + out);
+                    break;
+            }
+        }
+        return out;
     }
 
 }

@@ -40,9 +40,9 @@ public class DataProcessor {
                 processLine(line);
             }
         } catch (FileNotFoundException e) {
-            System.err.println("Указанный файл не найден: " + filePath);
+            System.err.println("Указанный файл не найден: " + filePath + ". Данные из него не будут обработаны");
         } catch (IOException e) {
-            System.err.println("Ошибка при чтении файла: " + filePath + ": " + e.getMessage());
+            System.err.println("Ошибка при чтении файла: " + filePath + ". Данные из него не будут обработаны");
         }
     }
 
@@ -128,7 +128,7 @@ public class DataProcessor {
             }
             return new BufferedWriter(new FileWriter(filePath.toFile(), append));
         } catch (IOException e) {
-            System.err.println("Ошибка при создании файла " + type.name().toLowerCase() + ": " + e.getMessage());
+            System.err.println("Ошибка при создании файла " + filePath);
             return null;
         }
     }
