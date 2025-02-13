@@ -44,13 +44,15 @@ public class CLIParser {
         String prefix = cmd.getOptionValue("p", "");
         boolean appendMode = cmd.hasOption("a");
 
+        outputPath = replaceForbiddenCharacters(outputPath, "PATH");
+        prefix = replaceForbiddenCharacters(prefix, "PREFIX");
+
         List<String> inputFiles = cmd.getArgList();
         if (inputFiles.isEmpty()) {
             try {
                 String filename = TestFileGenerator.createTestFile();
                 inputFiles.add(filename);
-                System.err.println("""
-                        Ошибка:
+                System.out.println("""
                         Пользователь не ввел пути к файлам со входными данными.
                         Программа создала файл с тестовыми данными для демонстрации работы программы.
                         """);
@@ -65,4 +67,16 @@ public class CLIParser {
         }
         return new CommandLineArguments(outputPath, prefix, appendMode, statsType, inputFiles);
     }
+
+    private static String replaceForbiddenCharacters(String input, String type) {
+        String prefixForbiddenCharacters = "[/\\\\:*?\"<>|]";
+        String pathForbiddenCharacters = "[\\\\:*?\"<>|]";
+        return switch (type) {
+            case "PATH" -> (input.startsWith("/") ? "." + input : input).replaceAll(pathForbiddenCharacters, "");
+            case "PREFIX" -> input.replaceAll(prefixForbiddenCharacters, "");
+            default -> input;
+        };
+
+    }
+
 }
